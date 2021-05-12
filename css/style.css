@@ -1,5 +1,6 @@
 
 *{margin:0;padding:0}
+a{text-decoration: none;}
 .cleafix:after{
 	content:'.';
 	display: block;
@@ -10,7 +11,7 @@
 
 html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei";font-size: 20px;}
 .container{width:100%;height:100%;position: relative}
-.container .header{width:100%;height:5rem;position: absolute;left:0;top:0;z-index: 99;background-color: #fff;}
+.container .header{width:100%;height:5rem;position: absolute;left:0;top:0;z-index: 99;background-color: rgba(255,255,255,0.4);}
 .container .header .logo{float:left;}
 .container .header .logo .logo1{float:left;width:3.43rem;height:4rem;margin-left: 15px;margin-top: 0.5rem;}
 .container .header .logo .logo2{float:left;width:4.68rem;height:4rem;margin-left: 15px;margin-top: 0.5rem;}
@@ -20,14 +21,16 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .container .footer{position: absolute;bottom:0;left:0;text-align: center;color:#fff;font-size: 12px;width:100%;height:2rem;line-height: 2rem;background-color: #3f3f3f;}
 .container .banner{height:13rem;background:url('../img/product.png') center center no-repeat;background-size: cover;position: relative;}
 .container .body{padding-top: 5rem;padding-bottom: 2rem;height: 100%;position: relative;box-sizing: border-box;overflow-y: auto;background:url('../img/bg1.png') center center no-repeat;background-size: cover;}
-.container .button-wrappper{text-align: center;padding:0.5rem;border:1px solid #ccc;}
-.container .button-wrappper .button{display: inline-block;background: url("../img/bk.png") center center no-repeat;background-size: contain;height:2rem;width:6rem;line-height:2rem;font-size: 14px;margin:0 2rem;}
+.container .button-wrappper{text-align: center;padding:10px 0;border-bottom:1px solid #ccc;}
+.container .button-wrappper .button{display: inline-block;background: url("../img/bk.png") center center no-repeat;background-size: contain;height:39px;width:120px;line-height:39px;font-size: 14px;margin:0 2rem;}
 .container .button-wrappper .button.choosed,.button-wrappper .button:hover{background: url("../img/choosed.png")center center no-repeat;background-size: contain;color:#fff;cursor: pointer;}
+.container .button-wrappper .button.big{background: url("../img/bk-big.png") center center no-repeat;background-size: contain;width:147px;}
+.container .button-wrappper .button.big.choosed,.button-wrappper .button.big:hover{background: url("../img/choosed-big.png")center center no-repeat;background-size: contain;}
 
-
-.index{background:url('../img/bg.png') center center no-repeat;background-size: cover;}
-.index .header{background:url('../img/header-bg.png') center center no-repeat;background-size: cover;z-index: 99;}
-.index .bling{position: absolute;left:0;top:0;width:100%;height:100%;background:url('../img/bling.png') center center no-repeat;background-size: cover;transition: 1s;}
+.index .bgImg{width:100%;height:100%;}
+.index .header{background:url('../img/header-bg.png') center center no-repeat;background-size: cover;z-index: 99;background-color: transparent;}
+.index .bling{position: absolute;left:0;top:0;width:110%;height:100%;background:url('../img/bling.png') center center no-repeat;background-size: cover;transition: 1s;}
+.index .leftbg{position: absolute;left:0;top:9rem;width:10rem;height:2.2rem;background:url('../img/index1.png') center center no-repeat;background-size: contain;}
 .index .left-tree{position: absolute;left:0;top:15rem;width:23rem;height:14rem;}
 .index .left-tree img{position: absolute;left:0;top:0;width:100%;height:100%;}
 .index .right-tree{position: absolute;right:0;top:5rem;width:7rem;height:14rem;}
@@ -38,6 +41,12 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .index .body .title1{width:36%;margin-top:5%;margin-left: 6%;}
 .index .body .title2{height:7.5rem;line-height:9rem;background:url('../img/titile-bg.png') center center no-repeat;background-size: 100% 100%;margin-top: 1.8rem;}
 .index .body .title2 img{display:inline-block;height:2.2rem;padding-top: 1rem;}
+.index .body .address {position: absolute;bottom:1.5rem;right:3rem;text-align: left;color:#bead6f;}
+.index .body .address  h5{font-size: 14px;}
+.index .body .address  div{margin-top: 8px;}
+.index .body .address  div img{float:left;width:14px;height:14px;margin-right: 5px}
+.index .body .address  div span{float:left;height:14px;line-height: 14px;font-size: 12px;}
+
 .index .footer{height:2rem;line-height: 2rem;background-color: transparent;}
 
 .product .banner img{position: absolute;top:3.3rem;right:23rem;width:11rem;}
@@ -58,6 +67,9 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 
 .solution .banner{background:url('../img/solution.png') center center no-repeat;background-size: cover;}
 .solution .banner img{position: absolute;top:3.3rem;right:30rem;width:11rem;}
+.solution .list-btn{text-align: center;}
+.solution .list-btn .button{display: inline-block;font-size: 14px;margin:1rem 2rem;}
+.solution .list-btn .button.choosed,.list-btn .button:hover{color:#10ae01;cursor: pointer;}
 
 .news .banner{background:url('../img/news.png') center center no-repeat;background-size: cover;}
 .news .banner img{position: absolute;top:3.3rem;left:33rem;width:11rem;}
@@ -71,7 +83,22 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 
 .service .banner{background:url('../img/service.png') center center no-repeat;background-size: cover;}
 .service .banner img{position: absolute;top:3.3rem;left:24rem;width:11rem;}
-
+.service .list-wrapper{width:60rem;margin:0 auto;padding:1rem 0;}
+.service .list-wrapper .tabPane{display: none;}
+.service .list-wrapper .tabPane3{padding:1.5rem;background-color: #fff;}
+.service .list-wrapper .tabPane3 .table{margin:auto;border:0.05rem solid #ccc;width:54.2rem;}
+.service .list-wrapper .tabPane3 .tr{border-bottom:0.05rem solid #ccc;}
+.service .list-wrapper .tabPane3 .td{float:left;height:26px;line-height:26px;font-size: 12px;}
+.service .list-wrapper .tabPane3 .td1{width:4rem;text-align: center;border-right:0.05rem solid #ccc;}
+.service .list-wrapper .tabPane3 .td2{width:40rem;text-indent: 1em;border-right:0.05rem solid #ccc;}
+.service .list-wrapper .tabPane3 .td3{width:10rem;text-align: center;}
+.service .list-wrapper .tabPane3 .td3 .layui-input{height:22px;width:7rem;margin:2px auto 0;}
+.service .list-wrapper .tabPane3 .total .td1{width:44.1rem;}
+.service .list-wrapper .tabPane3 .total .td2{width:10rem;text-align: center;border:none;}
+.service .list-wrapper .tabPane3 .last{padding:10px;font-size: 12px;}
+.service .list-wrapper .tabPane3 .last .infor{float:left;width:17rem;text-align: center;}
+.service .list-wrapper .tabPane3 .last .infor .layui-input{width:10rem;height:20px;display: inline-block;margin-left: 5px;}
+.service .list-wrapper .tabPane4{padding:20px;background-color: #fff;}
 
 .custom .banner{background:url('../img/custom.png') center center no-repeat;background-size: cover;}
 .custom .banner img{position: absolute;top:3.3rem;left:33rem;width:11rem;}
@@ -82,3 +109,22 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 
 .contact .banner{background:url('../img/contact.png') center center no-repeat;background-size: cover;}
 .contact .banner img{position: absolute;top:3.7rem;left:37rem;width:11rem;}
+
+
+.login .main-body{background:url('../img/login-bg.png') center center no-repeat;background-size: cover;padding-top: 5rem;padding-bottom: 2rem;height: 100%;position: relative;box-sizing: border-box;}
+.login .footer{height:2rem;line-height: 2rem;background-color: transparent;border-top:1px solid rgba(255,255,255,0.1)}
+.login .main-body .left-tree{position: absolute;left:0;top:15rem;width:23rem;height:24rem;}
+.login .main-body .right-tree{position: absolute;right:0;top:15rem;width:18rem;height:24rem;}
+.sv-login-content {width: 400px;height: 320px;margin:0 auto;margin-top:5rem;position: relative;z-index: 1;}
+.login-bg{position: absolute;left:0;top:0;width:100%;height: 100%;background-color: #fff;filter:alpha(opacity=20);opacity: 0.2;border-radius: 4px;z-index: -1;}
+.sv-login-head {text-align: center;margin: 30px 0;}
+.sv-login-head h1 {font-size: 1.4rem;color:#fff;font-weight: normal;padding-top: 1rem;letter-spacing:0.2rem;}
+.sv-login-body {padding: 0 40px;}
+.sv-login-button {width: 100%;}
+.form-item{height:36px;border:1px solid #dce5ee;border-radius: 4px;background-color: #fff;}
+.form-item:hover,.form-item:active{border-color:#054340;}
+.form-item .title{float:left;width:40px;height:32px;line-height:34px;margin-top: 2px;color:#7e8186;text-align: center;border-right:1px solid #f2f2f2;}
+.form-item input{float:left;border:none;outline: none;display: block;height:32px;margin-top: 2px;margin-left: 1px;width:274px;border-radius: 4px;text-indent: 1em;}
+.sv-login-body .button{width:100%;height:36px;line-height:36px;border-radius:4px;margin-top:10px;background-color: #054340;font-size:16px;color:#fff;text-align: center;cursor:pointer;}
+.sv-login-body .button:hover{background-color: #035450;}
+.name-tips,.password-tips{font-size: 12px;color:#c10000;margin:1px 0 1px 2px;visibility: hidden;}

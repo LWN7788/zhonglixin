@@ -18,18 +18,7 @@
 </head>
 
 <body>
-<div class="container index">
-    <div class="bling animated moveout"></div>
-    <div class="bling animated slower4 moveout1 infinite"></div>
-    <div class="bling animated slower4 moveout2 infinite"></div>
-    <div class="left-tree">
-        <img src="img/tree1.png" alt="">
-        <img src="img/glod1.png" alt="" class="glod">
-    </div>
-    <div class="right-tree">
-        <img src="img/tree2.png" alt="">
-        <img src="img/glod2.png" alt="" class="glod">
-    </div>
+<div class="container login">
     <div class="header">
         <div class="logo cleafix">
             <img src="img/logo1.png" alt="" class="logo1">
@@ -51,7 +40,7 @@
             <a class="item" href="service.html">
                 服务中心
             </a>
-            <a class="item" href="custom.html">
+            <a class="item" href="login.html">
                 客户中心
             </a>
             <a class="item" href="company.html">
@@ -62,11 +51,27 @@
             </a>
         </div>
     </div>
-    <div class="body">
-        <div class="border"></div>
-        <img src="img/title.png" class="title1">
-        <div class="title2">
-            <img src="img/title2.png" alt="">
+    <div class="main-body">
+        <img class="left-tree" src="img/login-tree1.png" alt="">
+        <img class="right-tree" src="img/login-tree2.png" alt="">
+        <div class="sv-login-content">
+            <div class="login-bg"></div>
+            <div class="sv-login-head">
+                <h1>欢迎登录</h1>
+            </div>
+            <div class="sv-login-body">
+                <div class="name-wrap form-item">
+                    <div class="title"><img src="img/username.png" alt=""></div>
+                    <input type="text" id="userName">
+                </div>
+                <div class="name-tips">请输入用户名</div>
+                <div class="pass-wrap form-item">
+                    <div class="title"><img src="img/password.png" alt=""></div>
+                    <input type="password" id="password">
+                </div>
+                <div class="password-tips">请输入密码</div>
+                <div class="button submit">登 录</div>
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -79,9 +84,67 @@
 <script src="js/fontsize.js"></script>
 <script type="text/javascript">
     $(function () {
-        // $('.bling').animate({
-        //     transform:'rotate',
-        // },1000);
+        var base_url="/api";
+        $(document).keyup(function(event){
+            if(event.keyCode ===13){
+                $(".submit").trigger("click");
+            }
+        });
+        $('.submit').on('click',function (e) {
+            window.location.href = "custom.html";
+            // var username = $.trim($("#userName").val());
+            // var password = $.trim($("#password").val());
+            // if(username==''){
+            //     $('.name-tips').css('visibility','visible')
+            //     return false;
+            // }else{
+            //     $('.name-tips').css('visibility','hidden')
+            // }
+            // if(password==''){
+            //     $('.password-tips').css('visibility','visible')
+            //     return false;
+            // }else {
+            //     $('.password-tips').css('visibility','hidden')
+            // }
+            // var data={}
+            // data.username=username;
+            // data.password=password;
+            // $.ajax({
+            //     url: base_url + "/system/login",
+            //     type: "post",
+            //     contentType: "application/x-www-form-urlencoded",
+            //     dataType: "JSON",
+            //     cache: false,
+            //     data: data,
+            //     headers:{
+            //         "source": "pc"
+            //     },
+            //     success: function(res) {
+            //         if(res.success){
+            //             setCookie("userId", res.data.userId);
+            //             setCookie("username", res.data.username);
+            //             setCookie("cardNumber", res.data.cardNumber);
+            //             setCookie("realName", res.data.realName);
+            //             setCookie("token", res.data.token);
+            //             setCookie("passwordState", res.data.passwordState);
+            //             window.location.href = "index.html";
+            //         }else{
+            //             layer.msg(res.message, {
+            //                 icon: 2,
+            //                 time: 2000
+            //             })
+            //         }
+            //
+            //     }
+            // })
+        })
+        function setCookie(name, value, expires, path, domain, secure) {
+            document.cookie = name + "=" + escape(value) +
+                ((expires) ? "; expires=" + expires : "") +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                ((secure) ? "; secure" : "");
+        }
     })
 </script>
 </body>
