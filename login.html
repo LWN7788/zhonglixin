@@ -82,8 +82,13 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/layui/layui.js"></script>
 <script type="text/javascript">
     $(function () {
+        var userId=getCookie("userId")
+        if(userId){
+            window.location.href = "custom.html";
+        }
         var base_url="/api";
         $(document).keyup(function(event){
             if(event.keyCode ===13){
@@ -91,43 +96,36 @@
             }
         });
         $('.submit').on('click',function (e) {
+            var username = $.trim($("#userName").val());
+            var password = $.trim($("#password").val());
+            if(username==''){
+                $('.name-tips').css('visibility','visible')
+                return false;
+            }else{
+                $('.name-tips').css('visibility','hidden')
+            }
+            if(password==''){
+                $('.password-tips').css('visibility','visible')
+                return false;
+            }else {
+                $('.password-tips').css('visibility','hidden')
+            }
+            var data={}
+            data.username=username;
+            data.password=password;
+            setCookie("userId", '123456789123');
             window.location.href = "custom.html";
-            // var username = $.trim($("#userName").val());
-            // var password = $.trim($("#password").val());
-            // if(username==''){
-            //     $('.name-tips').css('visibility','visible')
-            //     return false;
-            // }else{
-            //     $('.name-tips').css('visibility','hidden')
-            // }
-            // if(password==''){
-            //     $('.password-tips').css('visibility','visible')
-            //     return false;
-            // }else {
-            //     $('.password-tips').css('visibility','hidden')
-            // }
-            // var data={}
-            // data.username=username;
-            // data.password=password;
             // $.ajax({
-            //     url: base_url + "/system/login",
+            //     url: base_url + "/login",
             //     type: "post",
             //     contentType: "application/x-www-form-urlencoded",
             //     dataType: "JSON",
             //     cache: false,
             //     data: data,
-            //     headers:{
-            //         "source": "pc"
-            //     },
             //     success: function(res) {
             //         if(res.success){
             //             setCookie("userId", res.data.userId);
-            //             setCookie("username", res.data.username);
-            //             setCookie("cardNumber", res.data.cardNumber);
-            //             setCookie("realName", res.data.realName);
-            //             setCookie("token", res.data.token);
-            //             setCookie("passwordState", res.data.passwordState);
-            //             window.location.href = "index.html";
+            //             window.location.href = "custom.html";
             //         }else{
             //             layer.msg(res.message, {
             //                 icon: 2,
@@ -144,6 +142,13 @@
                 ((path) ? "; path=" + path : "") +
                 ((domain) ? "; domain=" + domain : "") +
                 ((secure) ? "; secure" : "");
+        }
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if(arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
         }
     })
 </script>

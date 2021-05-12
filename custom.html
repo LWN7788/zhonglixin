@@ -87,6 +87,10 @@
 <script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
+        var userId=getCookie("userId")
+        if(!userId){
+            window.location.href = "login.html";
+        }
         var data = {
             buttonList: [
                 {name: '授权查询', code: 'tabpane1'},
@@ -97,7 +101,13 @@
         $('.button-wrappper').html(html);
         initbutton(data.buttonList[0].code);
     })
-
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
 
 </script>
 </body>
