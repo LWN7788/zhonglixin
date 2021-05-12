@@ -57,13 +57,35 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <div class="button choosed">企业简介</div>
-                <div class="button">企业文化</div>
-                <div class="button">发展历程</div>
-                <div class="button">资质荣誉</div>
+                <script id="buttons" type="text/html">
+                    {{each buttonList as item index}}
+                    {{if index==0}}
+                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{else}}
+                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{/if}}
+                    {{/each}}
+                </script>
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
+                </div>
+                <div class="tabpane tabpane2">
+                </div>
+                <div class="tabpane tabpane3">
+                </div>
+                <div class="tabpane tabpane4">
+                    <script id="imgs" type="text/html">
+                        {{each imgList as item index}}
+                        <div class="wrapper">
+                            <div class="img-wrapper">
+                                <img src="{{item.src}}" alt="">
+                            </div>
+                            <div class="title">{{item.title}}</div>
+                        </div>
+                        {{/each}}
+                    </script>
+
                 </div>
             </div>
         </div>
@@ -77,11 +99,50 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/operate.js"></script>
+<script src="js/layui/layui.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.button-wrappper').on('click', '.button', function () {
-            $('.button-wrappper').children().removeClass('choosed')
-            $(this).addClass('choosed')
+        var data = {
+            buttonList: [
+                {name: '企业简介', code: 'tabpane1'},
+                {name: '企业文化', code: 'tabpane2'},
+                {name: '发展历程', code: 'tabpane3'},
+                {name: '资质荣誉', code: 'tabpane4'},
+            ]
+        }
+        var html = template('buttons', data);
+        $('.button-wrappper').html(html);
+        initbutton(data.buttonList[0].code);
+
+        var data1 = {
+            imgList: [
+                {src: 'img/1.png', title: '产品介绍'},
+                {src: 'img/tree1.png', title: '产品介绍产品介绍'},
+                {src: 'img/login-bg.png', title: '产品介绍产品介绍'},
+                {src: 'img/logo1.png', title: '产品介绍产品介绍'},
+            ]
+        }
+        var html1 = template('imgs', data1);
+        $('.tabpane4').html(html1);
+
+        $('.tabpane4').on('click','.wrapper',function () {
+            var index = $(".tabpane4 .wrapper").index(this);
+            var json={
+                "title": "", //相册标题
+                "id": 123, //相册id
+                "start": index, //初始显示的图片序号，默认0
+                "data": [   //相册包含的图片，数组格式
+                    {src: 'img/1.png', title: '产品介绍'},
+                    {src: 'img/tree1.png', title: '产品介绍产品介绍'},
+                    {src: 'img/login-bg.png', title: '产品介绍产品介绍'},
+                    {src: 'img/logo1.png', title: '产品介绍产品介绍'},
+                ]
+            }
+            layer.photos({
+                photos: json //格式见API文档手册页
+                ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+            });
         })
     })
 </script>

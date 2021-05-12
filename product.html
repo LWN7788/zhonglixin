@@ -57,9 +57,15 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <div class="button choosed">机械设备</div>
-                <div class="button">耗材类</div>
-                <div class="button">配件及周边</div>
+                <script id="buttons" type="text/html">
+                    {{each buttonList as item index}}
+                    {{if index==0}}
+                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{else}}
+                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{/if}}
+                    {{/each}}
+                </script>
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
@@ -68,51 +74,6 @@
                         <div class="button">已停产机型</div>
                     </div>
                     <div class="list">
-                        <div class="item">
-                            <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
-                            </div>
-                            <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
-                                <div class="more">MORE+</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
-                            </div>
-                            <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
-                                <div class="more">MORE+</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
-                            </div>
-                            <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
-                                <div class="more">MORE+</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
-                            </div>
-                            <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
-                                <div class="more">MORE+</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
-                            </div>
-                            <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
-                                <div class="more">MORE+</div>
-                            </div>
-                        </div>
                         <div class="item">
                             <div class="img-wrapper">
                                 <img src="img/1.png" alt="">
@@ -131,9 +92,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
     <div class="footer">
         <p><span>版权所有: 河南省中和信医用设备有限公司</span><span style="margin-left: 10px;">备案号: (豫) -非经营性-2011-0006</span></p>
     </div>
@@ -141,12 +100,19 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.button-wrappper').on('click', '.button', function () {
-            $('.button-wrappper').children().removeClass('choosed')
-            $(this).addClass('choosed')
-        })
+        var data = {
+            buttonList: [
+                {name: '机械设备', code: 'tabpane1'},
+                {name: '耗材类', code: 'tabpane2'},
+                {name: '配件及周边', code: 'tabpane3'},
+            ]
+        }
+        var html = template('buttons', data);
+        $('.button-wrappper').html(html);
+        initbutton(data.buttonList[0].code);
 
         $('.list').on('click', '.item', function () {
             $('.introduction').show()

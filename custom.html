@@ -57,11 +57,20 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <div class="button">授权查询</div>
-                <div class="button">积分及销量</div>
+                <script id="buttons" type="text/html">
+                    {{each buttonList as item index}}
+                    {{if index==0}}
+                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{else}}
+                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{/if}}
+                    {{/each}}
+                </script>
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
+                </div>
+                <div class="tabpane tabpane2">
                 </div>
             </div>
         </div>
@@ -75,13 +84,21 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.button-wrappper').on('click', '.button', function () {
-            $('.button-wrappper').children().removeClass('choosed')
-            $(this).addClass('choosed')
-        })
+        var data = {
+            buttonList: [
+                {name: '授权查询', code: 'tabpane1'},
+                {name: '积分及销量', code: 'tabpane2'},
+            ]
+        }
+        var html = template('buttons', data);
+        $('.button-wrappper').html(html);
+        initbutton(data.buttonList[0].code);
     })
+
+
 </script>
 </body>
 </html>

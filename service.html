@@ -64,19 +64,24 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <div class="button choosed">营销方案</div>
-                <div class="button">售后服务</div>
-                <div class="button big">客户满意度调查</div>
-                <div class="button">投诉举报</div>
+                <script id="buttons" type="text/html">
+                    {{each buttonList as item index}}
+                    {{if index==0}}
+                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{else}}
+                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    {{/if}}
+                    {{/each}}
+                </script>
             </div>
             <div class="list-wrapper">
-                <div class="tabPane tabPane1" style="display: block">
+                <div class="tabpane tabpane1" style="display: block">
 
                 </div>
-                <div class="tabPane tabPane1">
+                <div class="tabpane tabpane2">
 
                 </div>
-                <div class="tabPane tabPane3">
+                <div class="tabpane tabpane3">
                     <h2 style="text-align:center;margin-bottom: 10px;">顾客满意度调查表</h2>
                     <p style="font-size: 12px;margin-left: 1.5rem;margin-bottom: 5px;">注： 每题分值为1-5分，请结合自身满意度进行打分，谢谢配合！</p>
                     <div class="table">
@@ -110,7 +115,7 @@
                     </div>
                     <div style="text-align: center;margin-top: 10px;"> <button class="layui-btn" style="width:20%;" onclick="tableSubmit()"> 提交</button></div>
                 </div>
-                <div class="tabPane tabPane4">
+                <div class="tabpane tabpane4">
                     <form class="layui-form" lay-filter="form4">
                         <div class="layui-form-item">
                             <label class="layui-form-label">投诉人姓名</label>
@@ -187,16 +192,20 @@
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
 <script src="js/layui/layui.js"></script>
+<script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.button-wrappper').on('click', '.button', function () {
-            $('.button-wrappper').children().removeClass('choosed')
-            $(this).addClass('choosed')
-            var index = $(".button-wrappper .button").index(this);
-            $(".list-wrapper .tabPane").hide();
-            $(".list-wrapper .tabPane").eq(index).show();
-
-        })
+        var data = {
+            buttonList: [
+                {name: '营销方案', code: 'tabpane1'},
+                {name: '售后服务', code: 'tabpane2'},
+                {name: '客户满意度调查', code: 'tabpane3'},
+                {name: '投诉举报', code: 'tabpane4'},
+            ]
+        }
+        var html = template('buttons', data);
+        $('.button-wrappper').html(html);
+        initbutton(data.buttonList[0].code);
 
         layui.use('form', function () {
             var upload = layui.upload;
