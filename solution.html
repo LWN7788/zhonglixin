@@ -60,17 +60,38 @@
                 <script id="buttons" type="text/html">
                     {{each buttonList as item index}}
                     {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{/if}}
                     {{/each}}
                 </script>
             </div>
             <div class="list-wrapper">
-               <div class="tabpane tabpane1">
-               </div>
-                <div class="tabpane tabpane2">
+                <div class="list cleafix">
+                    <script id="productList" type="text/html">
+                        {{each productList as item index}}
+                        <div class="item" index="{{index}}">
+                            <div class="img-wrapper">
+                                <img src="http://localhost:8128{{item.imgUrl}}" alt="">
+                            </div>
+                            <div class="title-wrapper">
+                                <div class="title">{{item.name}}</div>
+                                <div class="more">MORE+</div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </script>
+                </div>
+                <div class="introduction">
+                    <div class="detail">
+
+                    </div>
+                </div>
+            </div>
+            <div class="introduction">
+                <div class="detail">
+
                 </div>
             </div>
         </div>
@@ -86,16 +107,58 @@
 <script src="js/fontsize.js"></script>
 <script src="js/operate.js"></script>
 <script type="text/javascript">
+    var dataList='';
     $(function () {
-        var data = {
-            buttonList: [
-                {name: '代理商', code: 'tabpane1'},
-                {name: '医院', code: 'tabpane2'},
-            ]
+
+        $.ajax({
+            url: base_url + "/QdxData/jjfaDataTypeList",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res) {
+                var data = {
+                    buttonList: res.data
+                }
+                var html = template('buttons', data);
+                $('.button-wrappper').html(html);
+                getDataList(res.data[0].dictValue)
+            }
+        })
+
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            buttonType = $(this).attr('code')
+            getDataList(buttonType)
+            $('.list').show()
+            $('.introduction').hide()
+        })
+
+
+        $('.list').on('click', '.item', function () {
+            $('.introduction').show()
+            $('.list').hide()
+            index = $(this).attr('index')
+            $('.introduction .detail').html(dataList[index].content)
+        })
+
+        function getDataList(jjfaType1) {
+            $.ajax({
+                url: base_url + '/QdxData/jjfaDataList?jjfaType1=' + jjfaType1,
+                dataType: "JSON",
+                cache: false,
+                type: "GET",
+                success: function (res) {
+                    var data = {
+                        productList: res.data
+                    }
+                    var html = template('productList', data);
+                    $('.list').html(html);
+                    dataList=res.data;
+                }
+            })
         }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
+
     })
 </script>
 </body>

@@ -60,9 +60,9 @@
                 <script id="buttons" type="text/html">
                     {{each buttonList as item index}}
                     {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{/if}}
                     {{/each}}
                 </script>
@@ -70,10 +70,9 @@
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
                 </div>
-                <div class="tabpane tabpane2">
-                </div>
-                <div class="tabpane tabpane3">
+                <div class="tabpane tabpane4">
                     <div id="map"></div>
+                    <div class="detail"></div>
                 </div>
             </div>
         </div>
@@ -92,16 +91,53 @@
 <script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        var data = {
-            buttonList: [
-                {name: '业务联系', code: 'tabpane1'},
-                {name: '招贤纳士', code: 'tabpane2'},
-                {name: '联系方式', code: 'tabpane3'},
-            ]
+        $.ajax({
+            url: base_url + "/QdxData/lxwmDataTypeList",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res) {
+                var data = {
+                    buttonList: res.data
+                }
+                var html = template('buttons', data);
+                $('.button-wrappper').html(html);
+                getDataList(res.data[0].dictValue)
+            }
+        })
+
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            buttonType = $(this).attr('code')
+            getDataList(buttonType)
+            $('.list').show()
+            $('.introduction').hide()
+            if(buttonType==='lianxifangshi'){
+                $('.tabpane4').show()
+                $('.tabpane1').hide()
+            }else{
+                $('.tabpane4').hide()
+                $('.tabpane1').show()
+            }
+        })
+
+        function getDataList(jjfaType1) {
+            $.ajax({
+                url: base_url + '/QdxData/LxwmDataList?lxwmType=' + jjfaType1,
+                dataType: "JSON",
+                cache: false,
+                type: "GET",
+                success: function (res) {
+                    if(jjfaType1==='lianxifangshi'){
+                        $('.tabpane4 .detail').html(res.data.length>0?res.data[0].content:'');
+                    }else {
+                        $('.tabpane1').html(res.data.length>0?res.data[0].content:'')
+                    }
+
+                }
+            })
         }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
 
         var map = new AMap.Map('map', {
             zoom: 15,//级别

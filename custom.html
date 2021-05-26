@@ -57,20 +57,22 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <script id="buttons" type="text/html">
-                    {{each buttonList as item index}}
-                    {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
-                    {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
-                    {{/if}}
-                    {{/each}}
-                </script>
+                <div class="button choosed" code="tabpane1">授权查询</div>
+                <div class="button" code="tabpane2">积分及销量</div>
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
+                    <script id="items" type="text/html">
+                        {{each list as item index}}
+                        <div class="item" index="{{index}}">
+                            <span class="time">{{index+1}}、</span><span class="title">{{item.sqcx}}</span>
+                        </div>
+                        {{/each}}
+                    </script>
                 </div>
                 <div class="tabpane tabpane2">
+                    <div class="scoreWrapper" style="margin-bottom: 10px;"><span>您的积分是：</span><span class="score"></span></div>
+                    <div class="scoreWrapper"><span>您的销量是：</span><span class="xl"></span></div>
                 </div>
             </div>
         </div>
@@ -87,19 +89,42 @@
 <script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        var userId=getCookie("userId")
-        if(!userId){
+        var username=getCookie("username")
+        var password=getCookie("password")
+        if(!username||!password){
             window.location.href = "login.html";
         }
-        var data = {
-            buttonList: [
-                {name: '授权查询', code: 'tabpane1'},
-                {name: '积分及销量', code: 'tabpane2'},
-            ]
-        }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
+        var dataList='';
+        $.ajax({
+            url: base_url + '/QdxData/khfwzxPwd?pass=' + password + '&userName=' + username,
+            type: "GET",
+            dataType: "JSON",
+            cache: false,
+            success: function(res) {
+                if(res.msg==="操作成功"){
+                    dataList=res.data;
+                    if(res.data.length>0){
+                        var data = {
+                            list: res.data
+                        }
+                        var html = template('items', data);
+                        $('.tabpane1').html(html);
+                        $('.score').html(res.data[0].jfjxl)
+                        $('.xl').html(res.data[0].remark)
+                    }
+                }else{
+                    window.location.href = "login.html";
+                }
+            }
+        })
+
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            var className = $(this).attr('code')
+            $('.' + className).show()
+            $('.' + className).siblings().hide()
+        })
     })
     function getCookie(name) {
         var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");

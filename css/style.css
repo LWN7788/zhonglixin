@@ -52,40 +52,50 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .product .list-btn{text-align: center;}
 .product .list-btn .button{display: inline-block;font-size: 14px;margin:1rem 2rem;}
 .product .list-btn .button.choosed,.list-btn .button:hover{color:#10ae01;cursor: pointer;}
-.product .list{width:60rem;margin:0 auto;}
+.product .list{width:60rem;margin:0 auto;margin-top: 1rem;}
 .product .list .item{width:19rem;height:15rem;cursor: pointer;margin-bottom: 1rem;float:left;margin-right: 1.5rem;}
 .product .list .item:nth-child(3n){margin-right: 0;}
-.product .list .item .img-wrapper{width:19rem;height:12.5rem;overflow: hidden;display:table-cell; vertical-align:middle;background-color: #fff;}
+.product .list .item .img-wrapper{width:19rem;height:12.5rem;overflow: hidden;display:table-cell; vertical-align:middle;background-color: #fff;border:1px solid #f2f2f2;}
 .product .list .item .img-wrapper img{max-width: 100%;max-height: 100%;vertical-align:middle; text-align:center;}
 .product .list .item .title-wrapper{width:19rem;height:2.5rem;background-color: #ccc;padding:0 0.5rem;box-sizing: border-box;}
 .product .list .item .title{float:left;font-size: 12px;line-height: 2.5rem;}
 .product .list .item .more{float:right;font-size: 12px;line-height: 2.5rem;}
 .product .list .item:hover .title-wrapper{background-color: #024d4a;color:#fff;transition: 1s;}
 .product .list .item:hover .img-wrapper img{transform: scale(1.3);transition: 1s;}
-.product .introduction{display: none;width:60rem;margin:0 auto;}
+.product .introduction{display: none;width:60rem;margin:0 auto;padding-top: 1rem;}
 
 .solution .banner{background:url('../img/solution.png') center center no-repeat;background-size: cover;}
 .solution .banner img{position: absolute;top:3.3rem;right:30rem;width:11rem;}
 .solution .list-btn{text-align: center;}
 .solution .list-btn .button{display: inline-block;font-size: 14px;margin:1rem 2rem;}
 .solution .list-btn .button.choosed,.list-btn .button:hover{color:#10ae01;cursor: pointer;}
-.solution .tabpane{width:60rem;margin:0 auto;padding:1rem 0;display: none;}
+.solution .list{width:60rem;margin:0 auto;margin-top: 1rem;}
+.solution .list .item{width:19rem;height:15rem;cursor: pointer;margin-bottom: 1rem;float:left;margin-right: 1.5rem;}
+.solution .list .item:nth-child(3n){margin-right: 0;}
+.solution .list .item .img-wrapper{width:19rem;height:12.5rem;overflow: hidden;display:table-cell; vertical-align:middle;background-color: #fff;border:1px solid #f2f2f2;}
+.solution .list .item .img-wrapper img{max-width: 100%;max-height: 100%;vertical-align:middle; text-align:center;}
+.solution .list .item .title-wrapper{width:19rem;height:2.5rem;background-color: #ccc;padding:0 0.5rem;box-sizing: border-box;}
+.solution .list .item .title{float:left;font-size: 12px;line-height: 2.5rem;}
+.solution .list .item .more{float:right;font-size: 12px;line-height: 2.5rem;}
+.solution .list .item:hover .title-wrapper{background-color: #024d4a;color:#fff;transition: 1s;}
+.solution .list .item:hover .img-wrapper img{transform: scale(1.3);transition: 1s;}
+.solution .introduction{display: none;width:60rem;margin:0 auto;padding-top: 1rem;}
 
 .news .banner{background:url('../img/news.png') center center no-repeat;background-size: cover;}
 .news .banner img{position: absolute;top:3.3rem;left:33rem;width:11rem;}
-.news .tabpane{width:60rem;margin:0 auto;padding:1rem 0;display: none;}
+.news .list-wrapper{width:60rem;margin:0 auto;padding:1rem 0;}
 .news .list{margin-top: 20px;}
 .news .list .item{font-size: 14px;margin-bottom: 10px;background-color: #fff;padding:5px 10px;cursor: pointer;}
 .news .list .item:hover{background-color: #038d86;color:#fff;}
-.news .list .item .time{margin-right: 20px;}
+.news .list .item .time{margin-right: 5px;float: right}
 .news .page{margin-top: 20px;text-align: center;}
 .laypage_main{float: none!important;}
-
 
 .service .banner{background:url('../img/service.png') center center no-repeat;background-size: cover;}
 .service .banner img{position: absolute;top:3.3rem;left:24rem;width:11rem;}
 .service .list-wrapper{width:60rem;margin:0 auto;padding:1rem 0;}
 .service .list-wrapper .tabpane{display: none;}
+.service .list-wrapper .tabpane1{display: block;}
 .service .list-wrapper .tabpane3{padding:1.5rem;background-color: #fff;}
 .service .list-wrapper .tabpane3 .table{margin:auto;border:0.05rem solid #ccc;width:54.2rem;}
 .service .list-wrapper .tabpane3 .tr{border-bottom:0.05rem solid #ccc;}
@@ -99,15 +109,25 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .service .list-wrapper .tabpane3 .last{padding:10px;font-size: 12px;}
 .service .list-wrapper .tabpane3 .last .infor{float:left;width:17rem;text-align: center;}
 .service .list-wrapper .tabpane3 .last .infor .layui-input{width:10rem;height:20px;display: inline-block;margin-left: 5px;}
-.service .list-wrapper .tabpane4{padding:20px;background-color: #fff;}
+.service .list-wrapper .tabpane4{padding:20px;background-color: #fff;}.news .list{margin-top: 20px;}
+.service .list .item{font-size: 14px;margin-bottom: 10px;background-color: #fff;padding:5px 10px;cursor: pointer;}
+.service .list .item:hover{background-color: #038d86;color:#fff;}
+.service .list .item .time{margin-right: 5px;float: right}
+
+
 
 .custom .banner{background:url('../img/custom.png') center center no-repeat;background-size: cover;}
 .custom .banner img{position: absolute;top:3.3rem;left:33rem;width:11rem;}
-.custom .tabpane{width:60rem;margin:0 auto;padding:1rem 0;display: none;}
+.custom .tabpane{width:60rem;margin:0 auto;padding:1rem 0;}
+.custom .tabpane2{display: none;width:30rem;}
+.custom .tabpane1 .item{font-size: 14px;margin-bottom: 10px;background-color: #fff;padding:5px 10px;}
+.custom .tabpane1 .item:hover{background-color: #038d86;color:#fff;}
+.custom .tabpane1 .item .time{margin-right: 5px;}
 
 .company .banner{background:url('../img/company.jpg') center center no-repeat;background-size: cover;}
 .company .banner img{position: absolute;top:3.3rem;right:35rem;width:11rem;}
-.company .tabpane{width:60rem;margin:0 auto;padding:1rem 0;display: none;}
+.company .tabpane{width:60rem;margin:0 auto;padding:1rem 0;}
+.company .tabpane4{display: none;}
 .company .tabpane4 .wrapper{width:19rem;height:15rem;cursor: pointer;margin-bottom: 1rem;float:left;margin-right: 1.5rem;}
 .company .tabpane4 .wrapper:nth-child(3n){margin-right: 0;}
 .company .tabpane4 .img-wrapper{width:19rem;height:12.5rem;overflow: hidden;background-color: #fff;text-align: center;display:table-cell; vertical-align:middle;box-shadow: 0 0 2px #ccc;}
@@ -117,8 +137,10 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 
 .contact .banner{background:url('../img/contact.jpg') center center no-repeat;background-size: cover;}
 .contact .banner img{position: absolute;top:3.7rem;left:37rem;width:11rem;}
-.contact .tabpane{width:60rem;margin:0 auto;padding:1rem 0;display: none;}
+.contact .tabpane{width:60rem;margin:0 auto;padding:1rem 0;}
+.contact .tabpane4{display: none}
 .contact #map{height:300px;width:100%;box-shadow: 0 0 4px #888;}
+.contact .tabpane4 .detail{margin-top: 10px;}
 
 .login .main-body{background:url('../img/login-bg.jpg') center center no-repeat;background-size: cover;padding-top: 5rem;padding-bottom: 2rem;height: 100%;position: relative;box-sizing: border-box;}
 .login .footer{height:2rem;line-height: 2rem;background-color: transparent;border-top:1px solid rgba(255,255,255,0.1)}

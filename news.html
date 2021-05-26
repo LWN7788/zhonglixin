@@ -60,20 +60,23 @@
                 <script id="buttons" type="text/html">
                     {{each buttonList as item index}}
                     {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">{{item.dictLabel}}</div>
                     {{/if}}
                     {{/each}}
                 </script>
             </div>
             <div class="list-wrapper">
-                <div class="tabpane tabpane1">
+                <div class="tabpane">
                     <div class="list">
-                        <div class="item"><span class="time">2021-04-01</span><span class="title">清明放假通知</span></div>
-                        <div class="item"><span class="time">2021-04-01</span><span class="title">中和信公司被评为科技创新先进企业</span></div>
-                        <div class="item"><span class="time">2021-04-01</span><span class="title">清明放假我公司参加2017首届医生创新大会暨全国卫生产业博览会通知</span></div>
-                        <div class="item"><span class="time">2021-04-01</span><span class="title">我公司开展年度质量管理体系内部审核</span></div>
+                        <script id="productList" type="text/html">
+                            {{each productList as item index}}
+                            <div class="item cleafix" index="{{index}}">
+                                <div style="float:left;"><span class="index">{{index+1}}、</span><span class="title">{{item.name}}</span></div><span class="time">{{item.createTime}}</span>
+                            </div>
+                            {{/each}}
+                        </script>
                     </div>
                     <div class="page"></div>
                 </div>
@@ -97,41 +100,87 @@
 <script src="js/operate.js"></script>
 <script src="js/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+
     $(function () {
-        var data = {
-            buttonList: [
-                {name: '公告信息', code: 'tabpane1'},
-                {name: '公司要闻', code: 'tabpane2'},
-                {name: '行业动态', code: 'tabpane3'},
-            ]
+        var pageNum = 1;
+        var pageSize = 10;
+        var buttonType = '';
+
+
+        $.ajax({
+            url: base_url + "/QdxData/xwddataTypeList",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res) {
+                var data = {
+                    buttonList: res.data
+                }
+                var html = template('buttons', data);
+                $('.button-wrappper').html(html);
+                buttonType=res.data[0].dictValue;
+                getDataList()
+            }
+        })
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            buttonType = $(this).attr('code')
+            pageNum = 1;
+            pageSize = 10;
+            getDataList()
+            $('.list,.page').show()
+            $('.introduction').hide()
+        })
+
+
+        function getDataList() {
+
+            $.ajax({
+                url: base_url + "/QdxData/xwddataList?pageNum=" + pageNum + "&pageSize=" + pageSize + "&xwdtType1=" + buttonType,
+                dataType: "JSON",
+                cache: false,
+                success: function (res) {
+                    res.rows.forEach(function (item) {
+                        item.createTime=item.createTime.substring(0,11)
+                    })
+                    var data = {
+                        productList: res.rows
+                    }
+                    var html = template('productList', data);
+                    $('.list').html(html);
+                    productList=res.rows;
+
+                    var totalnum = Math.ceil(res.total / pageSize);
+                    if(totalnum>2){
+                        laypage({
+                            cont: $(".page"), //容器。值支持id名、原生dom对象，jquery对象。
+                            pages: totalnum, //通过后台拿到的总页数
+                            curr: pageNum||1, //当前页
+                            skip: false, //是否开启跳页
+                            skin: '#038d86',
+                            groups: 5, //连续显示分页数
+                            first: false,
+                            last: false,
+                            jump: function(obj, first) { //触发分页后的回调
+                                if(!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                    getDataList(obj.curr, pageSize, buttonType);
+                                }
+                            }
+                        });
+                    }
+
+                }
+            })
         }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
 
         $('.list').on('click', '.item', function () {
             $('.introduction').show()
             $('.list,.page').hide()
+            index = $(this).attr('index')
+            $('.introduction .detail').html(productList[index].content)
         })
 
-        $('.button').on('click',  function () {
-            $('.introduction').hide()
-            $('.list,.page').show()
-        })
-
-        laypage({
-            cont: $(".page"), //容器。值支持id名、原生dom对象，jquery对象。
-            pages: 100, //通过后台拿到的总页数
-            curr: 1, //当前页
-            skip: false, //是否开启跳页
-            skin: '#038d86',
-            groups: 5, //连续显示分页数
-            first: false,
-            last: false,
-            jump: function(obj, first) { //触发分页后的回调
-
-            }
-        });
     })
 </script>
 </body>

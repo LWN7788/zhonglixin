@@ -64,26 +64,33 @@
         </div>
         <div class="content">
             <div class="button-wrappper">
-                <script id="buttons" type="text/html">
-                    {{each buttonList as item index}}
-                    {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
-                    {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
-                    {{/if}}
-                    {{/each}}
-                </script>
+                <div class="button choosed" code="tabpane1">营销方案</div>
+                <div class="button" code="tabpane2">售后服务</div>
+                <div class="button big" code="tabpane3">客户满意度调查</div>
+                <div class="button" code="tabpane4">投诉举报</div>
             </div>
             <div class="list-wrapper">
-                <div class="tabpane tabpane1" style="display: block">
+                <div class="tabpane tabpane1">
+                    <div class="list">
+                        <script id="productList" type="text/html">
+                            {{each productList as item index}}
+                            <div class="item cleafix" index="{{index}}">
+                                <span class="index">{{index+1}}、</span><span class="title">{{item.name}}</span>
+                            </div>
+                            {{/each}}
+                        </script>
+                    </div>
+                    <div class="introduction">
+                        <div class="detail">
 
+                        </div>
+                    </div>
                 </div>
-                <div class="tabpane tabpane2">
 
-                </div>
                 <div class="tabpane tabpane3">
                     <h2 style="text-align:center;margin-bottom: 10px;">顾客满意度调查表</h2>
-                    <p style="font-size: 12px;margin-left: 1.5rem;margin-bottom: 5px;">注： 每题分值为1-5分，请结合自身满意度进行打分，谢谢配合！</p>
+                    <p style="font-size: 12px;margin-left: 1.5rem;margin-bottom: 5px;">注：
+                        每题分值为1-5分，请结合自身满意度进行打分，谢谢配合！</p>
                     <div class="table">
                         <div class="tr tableTitle cleafix">
                             <div class="td td1">编号</div>
@@ -96,7 +103,7 @@
                         </div>
                         <div class="tr last cleafix">
                             <div style="margin-bottom: 5px;">您认为我公司哪些方面还需要进一步改进，您的建议是：</div>
-                            <textarea placeholder="请输入" class="layui-textarea suggestion" ></textarea>
+                            <textarea placeholder="请输入" class="layui-textarea suggestion"></textarea>
                         </div>
                         <div class="cleafix last">
                             <div class="infor"><span>单位名称:</span><input type="text" class="layui-input unit"></div>
@@ -108,40 +115,43 @@
                             <div class="tr cleafix">
                                 <div class="td td1">{{value.index}}</div>
                                 <div class="td td2">{{value.name}}</div>
-                                <div class="td td3"><input type="text" class="layui-input" id="{{'input'+index}}" index="{{index}}" onchange="scoreInput(this)"></div>
+                                <div class="td td3"><input type="text" class="layui-input" id="{{'input'+index}}"
+                                                           index="{{index}}" onchange="scoreInput(this)"></div>
                             </div>
                             {{/each}}
                         </script>
                     </div>
-                    <div style="text-align: center;margin-top: 10px;"> <button class="layui-btn" style="width:20%;" onclick="tableSubmit()"> 提交</button></div>
+                    <div style="text-align: center;margin-top: 10px;">
+                        <button class="layui-btn" style="width:20%;" onclick="tableSubmit()"> 提交</button>
+                    </div>
                 </div>
                 <div class="tabpane tabpane4">
                     <form class="layui-form" lay-filter="form4">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">投诉人姓名</label>
+                            <label class="layui-form-label"><i style="color:#f00;margin-right: 2px;">*</i>投诉人姓名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="name" lay-verify="required" autocomplete="off"
+                                <input type="text" name="xm" lay-verify="required" autocomplete="off"
                                        placeholder="请输入投诉人姓名" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">投诉人电话</label>
+                            <label class="layui-form-label"><i style="color:#f00;margin-right: 2px;">*</i>投诉人电话</label>
                             <div class="layui-input-block">
-                                <input type="text" name="tel" lay-verify="required" lay-reqtext="请输入投诉人电话"
+                                <input type="text" name="dh" lay-verify="required" lay-reqtext="请输入投诉人电话"
                                        placeholder="请输入投诉人电话" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">投诉人地区</label>
                             <div class="layui-input-block">
-                                <input type="text" name="address" placeholder="请输入投诉人地区" autocomplete="off"
+                                <input type="text" name="dq" placeholder="请输入投诉人地区" autocomplete="off"
                                        class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">投诉内容</label>
                             <div class="layui-input-block">
-                                <textarea name="desc" placeholder="请输入投诉内容" class="layui-textarea"></textarea>
+                                <textarea name="content" placeholder="请输入投诉内容" class="layui-textarea"></textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -159,7 +169,7 @@
                         <div class="layui-form-item uploadPic">
                             <label class="layui-form-label">上传图片</label>
                             <div class="layui-input-block">
-                                <button name="url" type="button" class="layui-btn" id="picture">图片上传</button>
+                                <button name="imgUrl" type="button" class="layui-btn" id="picture">图片上传</button>
                                 <!--                                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">-->
                                 <!--                                    预览图：-->
                                 <!--                                    <div class="layui-upload-list" id="demo2"></div>-->
@@ -194,18 +204,66 @@
 <script src="js/layui/layui.js"></script>
 <script src="js/operate.js"></script>
 <script type="text/javascript">
+    var dataList = '';
     $(function () {
-        var data = {
-            buttonList: [
-                {name: '营销方案', code: 'tabpane1'},
-                {name: '售后服务', code: 'tabpane2'},
-                {name: '客户满意度调查', code: 'tabpane3'},
-                {name: '投诉举报', code: 'tabpane4'},
-            ]
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            buttonType = $(this).attr('code')
+            $('.list').show()
+            $('.introduction').hide()
+            if (buttonType === 'tabpane1') {
+                $('.tabpane1').show()
+                $('.tabpane1').siblings().hide()
+                getDataList1()
+            } else if (buttonType === 'tabpane2') {
+                $('.tabpane1').show()
+                $('.tabpane1').siblings().hide()
+                getDataList2()
+            } else {
+                $('.' + buttonType).show()
+                $('.' + buttonType).siblings().hide()
+            }
+        })
+        $('.list').on('click', '.item', function () {
+            $('.introduction').show()
+            $('.list').hide()
+            index = $(this).attr('index')
+            $('.introduction .detail').html(dataList[index].content)
+        })
+        getDataList1()
+
+        function getDataList1() {
+            $.ajax({
+                url: base_url + "/QdxData/yxfaDataList",
+                dataType: "JSON",
+                cache: false,
+                success: function (res) {
+                    var data = {
+                        productList: res.data
+                    }
+                    var html = template('productList', data);
+                    $('.list').html(html);
+                    dataList = res.data;
+                }
+            })
         }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
+
+        function getDataList2() {
+            $.ajax({
+                url: base_url + "/QdxData/ShfwDataList",
+                dataType: "JSON",
+                cache: false,
+                success: function (res) {
+                    var data = {
+                        productList: res.data
+                    }
+                    var html = template('productList', data);
+                    $('.list').html(html);
+                    dataList = res.data;
+                }
+            })
+        }
 
         layui.use('form', function () {
             var upload = layui.upload;
@@ -250,10 +308,9 @@
             //监听提交
             form.on('submit(submit4)', function (data) {
                 layer.open({
-                    content: '确定递交吗',
+                    content: '确定提交吗',
                     yes: function (index, layero) {
-                        layer.load();
-                        console.log(data.field);
+                        submit(data)
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
                 });
@@ -262,70 +319,123 @@
             });
         });
 
+
+        function submit(data) {
+            layer.load();
+            var data1 = data.field
+            $.ajax({
+                url: base_url + "/QdxData/touSuAdd",
+                type: "post",
+                contentType: "application/json",
+                dataType: "JSON",
+                cache: false,
+                data: JSON.stringify(data1),
+                success: function (res) {
+                    layer.closeAll();
+                    layer.msg(res.msg, {
+                        time: 2000
+                    })
+                }
+            })
+        }
+
         var data = {
             data: [
-                {index: 1, name: '产品品种多样性',result:''},
-                {index: 2, name: '产品的包装、外观造型',result:''},
-                {index: 3, name: '产品的性能及稳定性情况',result:''},
-                {index: 4, name: '产品的操作方便性和易使用性情况',result:''},
-                {index: 5, name: '产品的使用安全程度',result:''},
-                {index: 6, name: '新产品开发或者产品更新换代',result:''},
-                {index: 7, name: '供货交付的及时性',result:''},
-                {index: 8, name: '产品问题维修处理的及时性',result:''},
-                {index: 9, name: '维修产品的返回速度（及时性）',result:''},
-                {index: 10, name: '维修产品的修复质量',result:''},
-                {index: 11, name: '问题投诉回复质量',result:''},
-                {index: 12, name: '产品出现问题后的处理流程',result:''},
-                {index: 13, name: '我公司售后服务人员的服务态度',result:''},
-                {index: 14, name: '我公司销售人员的服务态度',result:''},
-                {index: 15, name: '我公司销售内勤的服务态度',result:''},
-                {index: 16, name: '我公司业务人员的专业水平',result:''},
-                {index: 17, name: '我公司售后服务人员的专业水平',result:''},
-                {index: 18, name: '我公司售后服务人员的专业水平',result:''},
-                {index: 19, name: '我公司的销售政策',result:''},
-                {index: 20, name: '在合作过程中，您对我公司的服务总体满意度',result:''},
+                {index: 1, name: '产品品种多样性', result: ''},
+                {index: 2, name: '产品的包装、外观造型', result: ''},
+                {index: 3, name: '产品的性能及稳定性情况', result: ''},
+                {index: 4, name: '产品的操作方便性和易使用性情况', result: ''},
+                {index: 5, name: '产品的使用安全程度', result: ''},
+                {index: 6, name: '新产品开发或者产品更新换代', result: ''},
+                {index: 7, name: '供货交付的及时性', result: ''},
+                {index: 8, name: '产品问题维修处理的及时性', result: ''},
+                {index: 9, name: '维修产品的返回速度（及时性）', result: ''},
+                {index: 10, name: '维修产品的修复质量', result: ''},
+                {index: 11, name: '问题投诉回复质量', result: ''},
+                {index: 12, name: '产品出现问题后的处理流程', result: ''},
+                {index: 13, name: '我公司售后服务人员的服务态度', result: ''},
+                {index: 14, name: '我公司销售人员的服务态度', result: ''},
+                {index: 15, name: '我公司销售内勤的服务态度', result: ''},
+                {index: 16, name: '我公司业务人员的专业水平', result: ''},
+                {index: 17, name: '我公司售后服务人员的专业水平', result: ''},
+                {index: 18, name: '我公司售后服务人员的专业水平', result: ''},
+                {index: 19, name: '我公司的销售政策', result: ''},
+                {index: 20, name: '在合作过程中，您对我公司的服务总体满意度', result: ''},
             ]
         }
-        tableList=data.data;
+        tableList = data.data;
         var html = template('research', data);
         $('.tableTitle').after(html);
 
     })
-    var tableList=[];
+    var tableList = [];
+
     function scoreInput(that) {
-        var index=$(that).attr('index')
-        var value=$(that).val()
-        if(isNaN(value)){
+        var index = $(that).attr('index')
+        var value = $(that).val()
+        if (isNaN(value)) {
             layer.msg("请输入数字！", {
                 icon: 2,
                 time: 1000
             });
             $(that).val('')
             return;
-        }else if(Number(value)>5||Number(value)<1){
+        } else if (Number(value) > 5 || Number(value) < 1) {
             layer.msg("请输入1-5！", {
                 icon: 2,
                 time: 1000
             });
             $(that).val('')
             return;
-        }else{
-            tableList[index].result=Number(value)
-            var total=0;
-            tableList.forEach((item)=>{total+=Number(item.result)})
+        } else {
+            tableList[index].result = Number(value)
+            var total = 0;
+            tableList.forEach((item) => {
+                total += Number(item.result)
+            })
             $('.total .td2').html(total)
         }
     }
 
     function tableSubmit() {
-        var total=Number($('.total .td2').html());
-        if(total==0){
+        var total = Number($('.total .td2').html());
+        if (total == 0) {
             layer.msg("请进行打分再提交！", {
                 icon: 2,
                 time: 1000
             });
-        }else{
-
+        } else {
+            var list=[]
+            tableList.forEach(function (item,index) {
+                var obj={}
+                obj.pf=item.result;
+                obj.wtnr=index+1;
+                list.push(obj)
+            })
+            var data1={
+                content:$('.suggestion').val(),
+                dh:$('.tel').val(),
+                dwmc:$('.unit').val(),
+                lxr:$('.name').val(),
+                zf:Number($('.total .td2').html()),
+                khmydcLisdataList:list
+            }
+            console.log(data1)
+            layer.load();
+            $.ajax({
+                url: base_url + "/QdxData/addKhmydcTitleData",
+                type: "post",
+                contentType: "application/json",
+                dataType: "JSON",
+                cache: false,
+                data: JSON.stringify(data1),
+                success: function (res) {
+                    layer.closeAll();
+                    layer.msg(res.msg, {
+                        time: 2000
+                    })
+                }
+            })
         }
     }
 </script>

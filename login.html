@@ -83,13 +83,14 @@
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
 <script src="js/layui/layui.js"></script>
+<script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        var userId=getCookie("userId")
-        if(userId){
+        var username=getCookie("username")
+        var password=getCookie("password")
+        if(username&&password){
             window.location.href = "custom.html";
         }
-        var base_url="/api";
         $(document).keyup(function(event){
             if(event.keyCode ===13){
                 $(".submit").trigger("click");
@@ -110,31 +111,26 @@
             }else {
                 $('.password-tips').css('visibility','hidden')
             }
-            var data={}
-            data.username=username;
-            data.password=password;
-            setCookie("userId", '123456789123');
-            window.location.href = "custom.html";
-            // $.ajax({
-            //     url: base_url + "/login",
-            //     type: "post",
-            //     contentType: "application/x-www-form-urlencoded",
-            //     dataType: "JSON",
-            //     cache: false,
-            //     data: data,
-            //     success: function(res) {
-            //         if(res.success){
-            //             setCookie("userId", res.data.userId);
-            //             window.location.href = "custom.html";
-            //         }else{
-            //             layer.msg(res.message, {
-            //                 icon: 2,
-            //                 time: 2000
-            //             })
-            //         }
-            //
-            //     }
-            // })
+
+            $.ajax({
+                url: base_url + '/QdxData/khfwzxPwd?pass=' + password + '&userName=' + username,
+                type: "GET",
+                dataType: "JSON",
+                cache: false,
+                success: function(res) {
+                    if(res.msg==="操作成功"){
+                        setCookie("password", password);
+                        setCookie("username", username);
+                        window.location.href = "custom.html";
+                    }else{
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            time: 2000
+                        })
+                    }
+
+                }
+            })
         })
         function setCookie(name, value, expires, path, domain, secure) {
             document.cookie = name + "=" + escape(value) +

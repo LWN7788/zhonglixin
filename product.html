@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/animate.css"/>
     <title>河南省中和信医用设备有限公司</title>
+    <script src="js/html5shiv.js"></script>
 </head>
 
 <body>
@@ -60,30 +61,47 @@
                 <script id="buttons" type="text/html">
                     {{each buttonList as item index}}
                     {{if index==0}}
-                    <div class="button choosed {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
+                        {{item.dictLabel}}
+                    </div>
                     {{else}}
-                    <div class="button {{item.name.length>5?'big':''}}" code="{{item.code}}">{{item.name}}</div>
+                    <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
+                        {{item.dictLabel}}
+                    </div>
                     {{/if}}
                     {{/each}}
                 </script>
             </div>
             <div class="list-wrapper">
-                <div class="tabpane tabpane1">
-                    <div class="list-btn">
-                        <div class="button choosed">畅销机型</div>
-                        <div class="button">已停产机型</div>
-                    </div>
-                    <div class="list">
-                        <div class="item">
+                <div class="list-btn">
+                    <script id="buttons1" type="text/html">
+                        {{each buttonList as item index}}
+                        {{if index==0}}
+                        <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
+                            {{item.dictLabel}}
+                        </div>
+                        {{else}}
+                        <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
+                            {{item.dictLabel}}
+                        </div>
+                        {{/if}}
+                        {{/each}}
+                    </script>
+                </div>
+                <div class="list cleafix">
+                    <script id="productList" type="text/html">
+                        {{each productList as item index}}
+                        <div class="item" index="{{index}}">
                             <div class="img-wrapper">
-                                <img src="img/1.png" alt="">
+                                <img src="http://localhost:8128{{item.imgUrl}}" alt="">
                             </div>
                             <div class="title-wrapper">
-                                <div class="title">超声脉冲电导治疗仪 SLC-001</div>
+                                <div class="title">{{item.name}}</div>
                                 <div class="more">MORE+</div>
                             </div>
                         </div>
-                    </div>
+                        {{/each}}
+                    </script>
                 </div>
                 <div class="introduction">
                     <div class="detail">
@@ -102,27 +120,93 @@
 <script src="js/fontsize.js"></script>
 <script src="js/operate.js"></script>
 <script type="text/javascript">
+    var type1,type2,productList;
     $(function () {
-        var data = {
-            buttonList: [
-                {name: '机械设备', code: 'tabpane1'},
-                {name: '耗材类', code: 'tabpane2'},
-                {name: '配件及周边', code: 'tabpane3'},
-            ]
+
+
+        $.ajax({
+            url: base_url + "/QdxData/cpzxDataTypeList1",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res) {
+                var data = {
+                    buttonList: res.data
+                }
+                var html = template('buttons', data);
+                $('.button-wrappper').html(html);
+                type1=res.data[0].dictValue;
+                $.ajax({
+                    url: base_url + "/QdxData/cpzxDataTypeList2",
+                    dataType: "JSON",
+                    cache: false,
+                    type: "GET",
+                    success: function (res1) {
+                        var data1 = {
+                            buttonList: res1.data
+                        }
+                        var html = template('buttons1', data1);
+                        $('.list-btn').html(html);
+                        type2=res1.data[0].dictValue;
+                        getDataList(type1, type2)
+                    }
+                })
+
+            }
+        })
+
+
+
+        function getDataList(cpzxType1, cpzxType2) {
+            $.ajax({
+                url: base_url + '/QdxData/cpzxDataList?cpzxType1=' + cpzxType1 + '&cpzxType2=' + cpzxType2,
+                dataType: "JSON",
+                cache: false,
+                type: "GET",
+                success: function (res) {
+                    var data = {
+                        productList: res.data
+                    }
+                    var html = template('productList', data);
+                    $('.list').html(html);
+                    productList=res.data;
+                }
+            })
         }
-        var html = template('buttons', data);
-        $('.button-wrappper').html(html);
-        initbutton(data.buttonList[0].code);
+
+        $('.button-wrappper').on('click', '.button', function () {
+            $('.button-wrappper').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            type1 = $(this).attr('code')
+            if (type1 === 'jixieshebei') {
+                $('.list-btn').show()
+            } else {
+                $('.list-btn').hide()
+            }
+            type2=''
+            getDataList(type1, '')
+
+            $('.list').show()
+            $('.introduction').hide()
+        })
+
+        $('.list-btn').on('click', '.button', function () {
+            $('.list-btn').children().removeClass('choosed')
+            $(this).addClass('choosed')
+            type2 = $(this).attr('code')
+            getDataList(type1, type2)
+
+
+            $('.list').show()
+        })
 
         $('.list').on('click', '.item', function () {
             $('.introduction').show()
             $('.list').hide()
+            index = $(this).attr('index')
+            $('.introduction .detail').html(productList[index].content)
         })
 
-        $('.button').on('click',  function () {
-            $('.introduction').hide()
-            $('.list').show()
-        })
     })
 </script>
 </body>

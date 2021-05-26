@@ -1,3 +1,4 @@
+var base_url = 'http://localhost:8128';
 function initbutton(className) {
     if($('.' + className).length > 0){
         $('.' + className).show()
