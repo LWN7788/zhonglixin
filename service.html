@@ -54,11 +54,21 @@
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
-                    <div class="list">
+                    <div class="list cleafix">
                         <script id="productList" type="text/html">
                             {{each productList as item index}}
-                            <div class="item cleafix" index="{{index}}">
-                                <span class="index">{{index+1}}、</span><span class="title">{{item.name}}</span>
+                            <div class="item" index="{{index}}">
+                                <div class="img-wrapper">
+                                    {{if item.imgUrl}}
+                                    <img src="http://localhost:8128{{item.imgUrl}}" alt="">
+                                    {{else}}
+                                    <img src="img/mark.jpg" alt="" style="width:100%;height:100%;">
+                                    {{/if}}
+                                </div>
+                                <div class="title-wrapper">
+                                    <div class="title">{{item.name}}</div>
+                                    <div class="more">MORE+</div>
+                                </div>
                             </div>
                             {{/each}}
                         </script>
@@ -69,7 +79,8 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="tabpane tabpane2">
+                </div>
                 <div class="tabpane tabpane3">
                     <h2 style="text-align:center;margin-bottom: 10px;">顾客满意度调查表</h2>
                     <p style="font-size: 12px;margin-left: 1.5rem;margin-bottom: 5px;">注：
@@ -96,8 +107,8 @@
                         <script id="research" type="text/html">
                             {{each data as value index}}
                             <div class="tr cleafix">
-                                <div class="td td1">{{value.index}}</div>
-                                <div class="td td2">{{value.name}}</div>
+                                <div class="td td1">{{value.bh}}</div>
+                                <div class="td td2">{{value.wtnr}}</div>
                                 <div class="td td3"><input type="text" class="layui-input" id="{{'input'+index}}"
                                                            index="{{index}}" onchange="scoreInput(this)"></div>
                             </div>
@@ -137,16 +148,16 @@
                                 <textarea name="content" placeholder="请输入投诉内容" class="layui-textarea"></textarea>
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">上传</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="sex" value="1" title="上传图片" checked="" lay-filter="radio">
-                                <input type="radio" name="sex" value="2" title="上传视频" lay-filter="radio">
-                            </div>
-                        </div>
+<!--                        <div class="layui-form-item">-->
+<!--                            <label class="layui-form-label">上传</label>-->
+<!--                            <div class="layui-input-block">-->
+<!--                                <input type="radio" name="sex" value="1" title="上传图片" checked="" lay-filter="radio">-->
+<!--                                <input type="radio" name="sex" value="2" title="上传视频" lay-filter="radio">-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="layui-form-item">
                             <div class="layui-input-block" style="display: none;">
-                                <input type="text" name="url" placeholder="" autocomplete="off" class="layui-input">
+                                <input type="text" name="imgUrl" placeholder="" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item uploadPic">
@@ -159,7 +170,12 @@
                                 <!--                                </blockquote>-->
                             </div>
                         </div>
-                        <div class="layui-form-item uploadVideo" style="display: none;">
+                        <div class="layui-form-item">
+                            <div class="layui-input-block" style="display: none;">
+                                <input type="text" name="spUrl" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item uploadVideo" >
                             <label class="layui-form-label">上传视频</label>
                             <div class="layui-input-block">
                                 <button type="button" class="layui-btn" id="video">上传视频</button>
@@ -193,20 +209,17 @@
             $('.button-wrappper').children().removeClass('choosed')
             $(this).addClass('choosed')
             buttonType = $(this).attr('code')
-            $('.list').show()
-            $('.introduction').hide()
             if (buttonType === 'tabpane1') {
-                $('.tabpane1').show()
-                $('.tabpane1').siblings().hide()
+                $('.list').show()
+                $('.introduction').hide()
                 getDataList1()
             } else if (buttonType === 'tabpane2') {
-                $('.tabpane1').show()
-                $('.tabpane1').siblings().hide()
                 getDataList2()
             } else {
-                $('.' + buttonType).show()
-                $('.' + buttonType).siblings().hide()
+
             }
+            $('.' + buttonType).show()
+            $('.' + buttonType).siblings().hide()
         })
         $('.list').on('click', '.item', function () {
             $('.introduction').show()
@@ -238,12 +251,10 @@
                 dataType: "JSON",
                 cache: false,
                 success: function (res) {
-                    var data = {
-                        productList: res.data
+                    if(res.data.length>0){
+                        $('.tabpane2').html(res.data[0].content);
                     }
-                    var html = template('productList', data);
-                    $('.list').html(html);
-                    dataList = res.data;
+
                 }
             })
         }
@@ -253,7 +264,7 @@
             var form = layui.form;
             upload.render({
                 elem: '#picture',
-                url: 'https://httpbin.org/post', //改成您自己的上传接口
+                url:base_url +'/QdxData/addfile', //改成您自己的上传接口
                 multiple: true,
                 before: function (obj) {
                     // //预读本地文件示例，不支持ie8
@@ -263,36 +274,34 @@
                     layer.load();
                 }, done: function (res) {
                     layer.closeAll('loading');
-                    form.val("form4", {'url': '1111',})
+                    layer.msg('上传图片成功', {
+                        time: 2000
+                    })
+                    form.val("form4", {'imgUrl': res.msg,})
                 }
             });
             upload.render({
                 elem: '#video',
-                url: 'https://httpbin.org/post',
+                url: base_url +'/QdxData/addfile',
                 accept: 'video',
                 before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
                     layer.load(); //上传loading
                 },
                 done: function (res) {
                     layer.closeAll('loading');
-                    form.val("form4", {'url': '1111',})
+                    layer.msg('上传视频成功', {
+                        time: 2000
+                    })
+                    form.val("form4", {'spUrl': res.msg,})
                 }
             });
 
-            form.on('radio', function (data) {
-                if (data.value === '1') {
-                    $('.uploadPic').show();
-                    $('.uploadVideo').hide();
-                } else {
-                    $('.uploadPic').hide();
-                    $('.uploadVideo').show();
-                }
-            });
             //监听提交
             form.on('submit(submit4)', function (data) {
                 layer.open({
                     content: '确定提交吗',
                     yes: function (index, layero) {
+                        console.log(data)
                         submit(data)
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
                     }
@@ -309,10 +318,9 @@
             $.ajax({
                 url: base_url + "/QdxData/touSuAdd",
                 type: "post",
-                contentType: "application/json",
                 dataType: "JSON",
                 cache: false,
-                data: JSON.stringify(data1),
+                data: data1,
                 success: function (res) {
                     layer.closeAll();
                     layer.msg(res.msg, {
@@ -322,33 +330,21 @@
             })
         }
 
-        var data = {
-            data: [
-                {index: 1, name: '产品品种多样性', result: ''},
-                {index: 2, name: '产品的包装、外观造型', result: ''},
-                {index: 3, name: '产品的性能及稳定性情况', result: ''},
-                {index: 4, name: '产品的操作方便性和易使用性情况', result: ''},
-                {index: 5, name: '产品的使用安全程度', result: ''},
-                {index: 6, name: '新产品开发或者产品更新换代', result: ''},
-                {index: 7, name: '供货交付的及时性', result: ''},
-                {index: 8, name: '产品问题维修处理的及时性', result: ''},
-                {index: 9, name: '维修产品的返回速度（及时性）', result: ''},
-                {index: 10, name: '维修产品的修复质量', result: ''},
-                {index: 11, name: '问题投诉回复质量', result: ''},
-                {index: 12, name: '产品出现问题后的处理流程', result: ''},
-                {index: 13, name: '我公司售后服务人员的服务态度', result: ''},
-                {index: 14, name: '我公司销售人员的服务态度', result: ''},
-                {index: 15, name: '我公司销售内勤的服务态度', result: ''},
-                {index: 16, name: '我公司业务人员的专业水平', result: ''},
-                {index: 17, name: '我公司售后服务人员的专业水平', result: ''},
-                {index: 18, name: '我公司售后服务人员的专业水平', result: ''},
-                {index: 19, name: '我公司的销售政策', result: ''},
-                {index: 20, name: '在合作过程中，您对我公司的服务总体满意度', result: ''},
-            ]
-        }
-        tableList = data.data;
-        var html = template('research', data);
-        $('.tableTitle').after(html);
+
+        $.ajax({
+            url: base_url + "/QdxData/KhmydcMbDataList",
+            dataType: "JSON",
+            cache: false,
+            success: function (res) {
+                var data = {
+                    data: res.data
+                }
+                tableList = data.data;
+                var html = template('research', data);
+                $('.tableTitle').after(html);
+            }
+        })
+
 
     })
     var tableList = [];
@@ -356,6 +352,7 @@
     function scoreInput(that) {
         var index = $(that).attr('index')
         var value = $(that).val()
+
         if (isNaN(value)) {
             layer.msg("请输入数字！", {
                 icon: 2,
@@ -371,10 +368,10 @@
             $(that).val('')
             return;
         } else {
-            tableList[index].result = Number(value)
+            tableList[index].pf = Number(value)
             var total = 0;
             tableList.forEach((item) => {
-                total += Number(item.result)
+                total += Number(item.pf)?Number(item.pf):0
             })
             $('.total .td2').html(total)
         }
@@ -391,8 +388,9 @@
             var list=[]
             tableList.forEach(function (item,index) {
                 var obj={}
-                obj.pf=item.result;
-                obj.wtnr=index+1;
+                obj.khmydcTitleId=item.id;
+                obj.wtnr=item.wtnr;
+                obj.pf=item.pf;
                 list.push(obj)
             })
             var data1={
@@ -408,10 +406,9 @@
             $.ajax({
                 url: base_url + "/QdxData/addKhmydcTitleData",
                 type: "post",
-                contentType: "application/json",
                 dataType: "JSON",
                 cache: false,
-                data: JSON.stringify(data1),
+                data: {json:JSON.stringify(data1)},
                 success: function (res) {
                     layer.closeAll();
                     layer.msg(res.msg, {

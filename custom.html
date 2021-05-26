@@ -14,6 +14,7 @@
     <![endif]-->
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+    <link rel="stylesheet" href="js/layui/css/layui.css">
     <title>河南省中和信医用设备有限公司</title>
 </head>
 
@@ -45,17 +46,23 @@
             </div>
             <div class="list-wrapper">
                 <div class="tabpane tabpane1">
-                    <script id="items" type="text/html">
-                        {{each list as item index}}
-                        <div class="item" index="{{index}}">
-                            <span class="time">{{index+1}}、</span><span class="title">{{item.sqcx}}</span>
-                        </div>
-                        {{/each}}
-                    </script>
+                    <table class="layui-hide" id="test"></table>
                 </div>
                 <div class="tabpane tabpane2">
-                    <div class="scoreWrapper" style="margin-bottom: 10px;"><span>您的积分是：</span><span class="score"></span></div>
-                    <div class="scoreWrapper"><span>您的销量是：</span><span class="xl"></span></div>
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th>您的积分</th>
+                            <th>您的销量</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="score"></td>
+                            <td class="xl"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -69,6 +76,7 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/layui/layui.js"></script>
 <script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -87,11 +95,11 @@
                 if(res.msg==="操作成功"){
                     dataList=res.data;
                     if(res.data.length>0){
-                        var data = {
-                            list: res.data
-                        }
-                        var html = template('items', data);
-                        $('.tabpane1').html(html);
+                        // var data = {
+                        //     list: res.data
+                        // }
+                        // var html = template('items', data);
+                        // $('.tabpane1').html(html);
                         $('.score').html(res.data[0].jfjxl)
                         $('.xl').html(res.data[0].remark)
                     }
@@ -100,6 +108,20 @@
                 }
             }
         })
+        layui.use('table', function(){
+            var table = layui.table;
+
+            table.render({
+                elem: '#test'
+                ,url:base_url + '/QdxData/khfwzxPwd?pass=' + password + '&userName=' + username
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[
+                    {type:'numbers', width:80, title: '序号'}
+                    ,{field:'sqcx', title: '授权查询', minWidth: 100}
+
+                ]]
+            });
+        });
 
         $('.button-wrappper').on('click', '.button', function () {
             $('.button-wrappper').children().removeClass('choosed')
