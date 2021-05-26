@@ -33,35 +33,19 @@
     </div>
     <div class="leftbg"></div>
     <div class="header">
+        <img src="img/header-bg.png" alt="" class="headerBg">
         <div class="logo cleafix">
             <img src="img/logo1.png" alt="" class="logo1">
             <img src="img/logo2.png" alt="" class="logo2">
         </div>
         <div class="tab cleafix">
-            <a class="item" href="index.html">
-                首页
-            </a>
-            <a class="item" href="product.html">
-                产品中心
-            </a>
-            <a class="item" href="solution.html">
-                解决方案
-            </a>
-            <a class="item" href="news.html">
-                新闻动态
-            </a>
-            <a class="item" href="service.html">
-                服务中心
-            </a>
-            <a class="item" href="login.html">
-                客户中心
-            </a>
-            <a class="item" href="company.html">
-                关于公司
-            </a>
-            <a class="item" href="contact.html">
-                联系我们
-            </a>
+            <script id="titleList" type="text/html">
+                {{each list as item index}}
+                <a class="item" href="{{item.urlName}}.html">
+                    {{item.name}}
+                </a>
+                {{/each}}
+            </script>
         </div>
     </div>
     <div class="body">
@@ -73,7 +57,7 @@
         <a class="address cleafix" href="contact.html">
             <h5>河南省中和信医用设备有限公司</h5>
             <div class="cleafix"><img src="img/address.png" alt=""><span>国家郑州经济技术开发区经北一路16号</span></div>
-            <div class="cleafix"><img src="img/tel.png" alt=""><span>0371-63944487    </span></div>
+            <div class="cleafix"><img src="img/tel.png" alt=""><span>0371-63944487</span></div>
         </a>
     </div>
     <div class="footer">
@@ -84,12 +68,23 @@
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script src="js/template.js"></script>
 <script src="js/fontsize.js"></script>
+<script src="js/operate.js"></script>
 <script type="text/javascript">
     $(function () {
-        // $('.bling').animate({
-        //     transform:'rotate',
-        // },1000);
+        $.ajax({
+            url: base_url + "/QdxData/titleUrlEmg",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res) {
+                if(res.data.urlName){
+                   $('.bling,.left-tree,.right-tree,.leftbg,.body,.headerBg').hide()
+                    $('.bgImg').attr('src',res.data.urlName)
+                }
+            }
+        })
     })
+
 </script>
 </body>
 </html>

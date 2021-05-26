@@ -32,30 +32,13 @@
             <img src="img/logo2.png" alt="" class="logo2">
         </div>
         <div class="tab cleafix">
-            <a class="item" href="index.html">
-                首页
-            </a>
-            <a class="item" href="product.html">
-                产品中心
-            </a>
-            <a class="item" href="solution.html">
-                解决方案
-            </a>
-            <a class="item" href="news.html">
-                新闻动态
-            </a>
-            <a class="item" href="service.html">
-                服务中心
-            </a>
-            <a class="item" href="login.html">
-                客户中心
-            </a>
-            <a class="item" href="company.html">
-                关于公司
-            </a>
-            <a class="item" href="contact.html">
-                联系我们
-            </a>
+            <script id="titleList" type="text/html">
+                {{each list as item index}}
+                <a class="item" href="{{item.urlName}}.html">
+                    {{item.name}}
+                </a>
+                {{/each}}
+            </script>
         </div>
     </div>
     <div class="body">

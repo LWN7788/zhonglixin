@@ -27,7 +27,7 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .container .button-wrappper .button.big.choosed,.button-wrappper .button.big:hover{background: url("../img/choosed-big.png")center center no-repeat;background-size: contain;}
 
 .index .bgImg{width:100%;height:100%;}
-.index .header{background:url('../img/header-bg.png') center center no-repeat;background-size: cover;z-index: 99;background-color: transparent;}
+.index .headerBg{width:100%;height:100%;}
 .index .bling{position: absolute;left:0;top:0;width:110%;height:100%;background:url('../img/bling.png') center center no-repeat;background-size: cover;transition: 1s;}
 .index .leftbg{position: absolute;left:0;top:9rem;width:10rem;height:2.2rem;background:url('../img/index1.png') center center no-repeat;background-size: contain;}
 .index .left-tree{position: absolute;left:0;top:15rem;width:23rem;height:14rem;}
@@ -45,8 +45,7 @@ html,body{width:100%;height:100%;overflow: hidden;font-family: "Microsoft YaHei"
 .index .body .address  div{margin-top: 8px;}
 .index .body .address  div img{float:left;width:14px;height:14px;margin-right: 5px}
 .index .body .address  div span{float:left;height:14px;line-height: 14px;font-size: 12px;}
-
-.index .footer{height:2rem;line-height: 2rem;background-color: transparent;}
+.index .footer{height:2rem;line-height: 2rem;background-color: transparent;color:#bead6f}
 
 .product .banner img{position: absolute;top:3.3rem;right:23rem;width:11rem;}
 .product .list-btn{text-align: center;}
