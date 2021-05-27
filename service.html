@@ -265,7 +265,7 @@
             upload.render({
                 elem: '#picture',
                 url:base_url +'/QdxData/addfile', //改成您自己的上传接口
-                multiple: true,
+                multiple: false,
                 before: function (obj) {
                     //预读本地文件示例，不支持ie8
                     obj.preview(function(index, file, result){
@@ -313,6 +313,7 @@
                             ,"imgUrl": ''
                             ,"spUrl": ""
                         });
+                        $('#demo2').html('')
                     }
                 });
 
@@ -335,6 +336,7 @@
                     layer.msg(res.msg, {
                         time: 2000
                     })
+
                 }
             })
         }
