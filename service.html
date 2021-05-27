@@ -164,10 +164,10 @@
                             <label class="layui-form-label">上传图片</label>
                             <div class="layui-input-block">
                                 <button name="imgUrl" type="button" class="layui-btn" id="picture">图片上传</button>
-                                <!--                                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">-->
-                                <!--                                    预览图：-->
-                                <!--                                    <div class="layui-upload-list" id="demo2"></div>-->
-                                <!--                                </blockquote>-->
+                                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                                    预览图：
+                                    <div class="layui-upload-list" id="demo2"></div>
+                                </blockquote>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -267,10 +267,10 @@
                 url:base_url +'/QdxData/addfile', //改成您自己的上传接口
                 multiple: true,
                 before: function (obj) {
-                    // //预读本地文件示例，不支持ie8
-                    // obj.preview(function(index, file, result){
-                    //     $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-                    // });
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#demo2').html('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                    });
                     layer.load();
                 }, done: function (res) {
                     layer.closeAll('loading');
@@ -304,6 +304,15 @@
                         console.log(data)
                         submit(data)
                         layer.close(index); //如果设定了yes回调，需进行手工关闭
+                        form.val(
+                            "form4", {
+                            "xm": ""
+                            ,"dh": ""
+                            ,"dq": ''
+                            ,"content": ''
+                            ,"imgUrl": ''
+                            ,"spUrl": ""
+                        });
                     }
                 });
 
