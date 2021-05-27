@@ -60,7 +60,7 @@
                     <script id="buttons1" type="text/html">
                         {{each buttonList as item index}}
                         {{if index==0}}
-                        <div class="button choosed {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
+                        <div class="button {{item.dictLabel.length>5?'big':''}}" code="{{item.dictValue}}">
                             {{item.dictLabel}}
                         </div>
                         {{else}}
@@ -105,8 +105,6 @@
 <script type="text/javascript">
     var type1,type2,productList;
     $(function () {
-
-
         $.ajax({
             url: base_url + "/QdxData/cpzxDataTypeList1",
             dataType: "JSON",
@@ -119,25 +117,22 @@
                 var html = template('buttons', data);
                 $('.button-wrappper').html(html);
                 type1=res.data[0].dictValue;
-                $.ajax({
-                    url: base_url + "/QdxData/cpzxDataTypeList2",
-                    dataType: "JSON",
-                    cache: false,
-                    type: "GET",
-                    success: function (res1) {
-                        var data1 = {
-                            buttonList: res1.data
-                        }
-                        var html = template('buttons1', data1);
-                        $('.list-btn').html(html);
-                        type2=res1.data[0].dictValue;
-                        getDataList(type1, type2)
-                    }
-                })
-
+                getDataList(type1,'')
             }
         })
-
+        $.ajax({
+            url: base_url + "/QdxData/cpzxDataTypeList2",
+            dataType: "JSON",
+            cache: false,
+            type: "GET",
+            success: function (res1) {
+                var data1 = {
+                    buttonList: res1.data
+                }
+                var html = template('buttons1', data1);
+                $('.list-btn').html(html);
+            }
+        })
 
 
         function getDataList(cpzxType1, cpzxType2) {
@@ -163,6 +158,7 @@
             type1 = $(this).attr('code')
             if (type1 === 'jixieshebei') {
                 $('.list-btn').show()
+                $('.list-btn .button').removeClass('choosed')
             } else {
                 $('.list-btn').hide()
             }
@@ -178,9 +174,8 @@
             $(this).addClass('choosed')
             type2 = $(this).attr('code')
             getDataList(type1, type2)
-
-
             $('.list').show()
+            $('.introduction').hide()
         })
 
         $('.list').on('click', '.item', function () {
