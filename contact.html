@@ -15,6 +15,20 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" type="text/css" href="css/animate.css"/>
     <title>河南省中和信医用设备有限公司</title>
+    <style>
+        .marker {
+            position: absolute;
+            left:12px;
+            top:28px;
+            color: #fff;
+            padding: 4px 10px;
+            box-shadow: 1px 1px 1px rgba(10, 10, 10, .2);
+            white-space: nowrap;
+            font-size: 12px;
+            background-color: #25A5F7;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 
 <body>
@@ -96,10 +110,10 @@
             getDataList(buttonType)
             $('.list').show()
             $('.introduction').hide()
-            if(buttonType==='lianxifangshi'){
+            if (buttonType === 'lianxifangshi') {
                 $('.tabpane4').show()
                 $('.tabpane1').hide()
-            }else{
+            } else {
                 $('.tabpane4').hide()
                 $('.tabpane1').show()
             }
@@ -112,10 +126,10 @@
                 cache: false,
                 type: "GET",
                 success: function (res) {
-                    if(jjfaType1==='lianxifangshi'){
-                        $('.tabpane4 .detail').html(res.data.length>0?res.data[0].content:'');
-                    }else {
-                        $('.tabpane1').html(res.data.length>0?res.data[0].content:'')
+                    if (jjfaType1 === 'lianxifangshi') {
+                        $('.tabpane4 .detail').html(res.data.length > 0 ? res.data[0].content : '');
+                    } else {
+                        $('.tabpane1').html(res.data.length > 0 ? res.data[0].content : '')
                     }
 
                 }
@@ -124,18 +138,26 @@
 
         var map = new AMap.Map('map', {
             zoom: 15,//级别
-            center: [113.74273,34.72356],//中心点坐标
+            center: [113.74273, 34.72356],//中心点坐标
         });
-        AMap.plugin('AMap.ToolBar',function(){//异步加载插件
+        AMap.plugin('AMap.ToolBar', function () {//异步加载插件
             var toolbar = new AMap.ToolBar();
             map.addControl(toolbar);
         });
         var marker = new AMap.Marker({
             icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
-            position: [113.74273,34.72356]
+            map: map,
+            position: [113.74273, 34.72356]
         });
-        marker.setMap(map);
-        marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+       marker.setAnimation('AMAP_ANIMATION_BOUNCE');
+        map.add(marker);
+        var marker1 = new AMap.Marker({
+            icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+            map: map,
+            position: [113.74273, 34.72356]
+        });
+        var content = "<div class = 'marker'>中和信医用设备有限公司</div>";
+        marker1.setContent(content)
     })
 </script>
 </body>
